@@ -23,7 +23,9 @@ const initialState = {
 export const getStatuses = createAsyncThunk(
   "statuses/getStatuses",
   async () => {
-    const response = await axios.get(`${BASE_API_URL}/${TENANT_GUID}/Statuses`);
+    const response = await axios.get(
+      `${BASE_API_URL}api/${TENANT_GUID}/Statuses`,
+    );
     return response.data;
   },
 );

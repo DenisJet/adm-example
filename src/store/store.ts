@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import prioritiesSlice from "./priorities.slice";
 import statusesSlice from "./statuses.slice";
+import tasksSlice from "./jobs.slice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       priorities: prioritiesSlice,
       statuses: statusesSlice,
+      tasks: tasksSlice,
     },
   });
 };

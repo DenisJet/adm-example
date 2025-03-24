@@ -24,7 +24,7 @@ export const getPriorities = createAsyncThunk(
   "priorities/getPriorities",
   async () => {
     const response = await axios.get(
-      `${BASE_API_URL}/${TENANT_GUID}/Priorities`,
+      `${BASE_API_URL}api/${TENANT_GUID}/Priorities`,
     );
     return response.data;
   },

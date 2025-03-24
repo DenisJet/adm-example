@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import MainNav from "@/components/MainNav/MainNav";
-import { Box, LinearProgress, Toolbar } from "@mui/material";
-import Providers from './providers/Providers';
+import { Box, Toolbar } from "@mui/material";
+import Providers from "./providers/Providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,13 +29,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
-            <Box sx={{ display: "flex" }}>
-              <MainNav />
-              <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <Toolbar />
-                {children}
-              </Box>
+          <Box sx={{ display: "flex" }}>
+            <MainNav />
+            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+              <Toolbar />
+              {children}
             </Box>
+          </Box>
         </Providers>
       </body>
     </html>

@@ -16,6 +16,10 @@ export const StyledInput = styled(OutlinedInput)`
 export const StyledListItem = styled(ListItemButton)`
   display: flex;
   flex-direction: column;
+
+  &:hover {
+    background-color: #0c4a6e;
+  }
 `;
 
 export const StyledList = styled(List)`

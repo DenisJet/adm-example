@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import MainNav from "@/components/MainNav/MainNav";
+import { Suspense } from "react";
+import { Box, LinearProgress, Toolbar } from "@mui/material";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +29,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <AppRouterCacheProvider>
+          <Suspense fallback={<LinearProgress />}>
+            <Box sx={{ display: "flex" }}>
+              <MainNav />
+              <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                <Toolbar />
+                {children}
+              </Box>
+            </Box>
+          </Suspense>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

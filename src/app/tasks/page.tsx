@@ -1,10 +1,10 @@
 "use client";
 
-import { getTasks } from "@/store/jobs.slice";
+import { getTasks } from "@/store/tasks.slice";
 import { useAppDispatch, useAppSelector } from "@/store/store.hooks";
 import { useEffect } from "react";
 
-export default function JobsPage() {
+export default function TasksPage() {
   const tasks = useAppSelector((state) => state.tasks).tasks;
   const dispatch = useAppDispatch();
 

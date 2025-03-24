@@ -30,7 +30,7 @@ const navItems: NavItem[] = [
     label: "База знаний",
   },
   {
-    path: ROUTES.jobs,
+    path: ROUTES.tasks,
     icon: <ArticleIcon fontSize="large" htmlColor="white" />,
     label: "Заявки",
   },

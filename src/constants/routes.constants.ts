@@ -1,7 +1,7 @@
 export const ROUTES = {
   home: "/",
   base: "/base",
-  jobs: "/jobs",
+  tasks: "/tasks",
   staff: "/staff",
   clients: "/clients",
   assets: "/assets",

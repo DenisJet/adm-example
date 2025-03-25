@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import prioritiesSlice from "./priorities.slice";
 import statusesSlice from "./statuses.slice";
 import tasksSlice from "./tasks.slice";
+import activeTaskSlice from "./activeTask.slice";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       priorities: prioritiesSlice,
       statuses: statusesSlice,
       tasks: tasksSlice,
+      activeTask: activeTaskSlice,
     },
   });
 };

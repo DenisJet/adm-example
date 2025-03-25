@@ -2,6 +2,14 @@ import styled from "@emotion/styled";
 import { Table } from "@mui/material";
 
 export const StyledTable = styled(Table)`
+  & tbody tr {
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f0f9ff;
+    }
+  }
+
   & td {
     max-width: 200px;
     white-space: nowrap;

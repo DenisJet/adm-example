@@ -86,7 +86,7 @@ export default function TasksList() {
       </TableContainer>
       {activeTaskId && (
         <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
-          <Box sx={{ width: "50vw" }} role="presentation">
+          <Box sx={{ width: "60vw" }} role="presentation">
             <div>
               <TaskEdit taskId={activeTaskId} onClose={toggleDrawer(false)} />
             </div>

@@ -1,14 +1,14 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardHeader, Chip, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/store/store.hooks";
 import { getTask } from "@/store/activeTask.slice";
 import CloseIcon from "@mui/icons-material/Close";
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import * as SC from "./TaskEdit.style";
+import { formatDatePlan } from "@/helpers/common";
 
 export default function TaskEdit({
   taskId,
@@ -89,9 +89,12 @@ export default function TaskEdit({
             <Typography color="text.secondary" variant="subtitle2">
               Срок
             </Typography>
-            <Typography gutterBottom noWrap>
-              {task.resolutionDatePlan}
-            </Typography>
+            <Stack direction="row" spacing={1}>
+              <CalendarMonthOutlinedIcon htmlColor="gray" />
+              <Typography gutterBottom noWrap>
+                {formatDatePlan(task.resolutionDatePlan)}
+              </Typography>
+            </Stack>
           </div>
           <div>
             <Typography color="text.secondary" variant="subtitle2">

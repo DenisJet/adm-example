@@ -2,7 +2,7 @@ import { BASE_API_URL, TENANT_GUID } from "@/constants/common";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface Task {
+export interface Task {
   id: number;
   name: string;
   description: string;

@@ -6,7 +6,7 @@ export const StyledCard = styled(Card)`
   min-width: 275px;
   height: 100vh;
 
-  & .MuiCardHeader-root {
+  > .MuiCardHeader-root {
     background-color: #075985;
     color: white;
   }

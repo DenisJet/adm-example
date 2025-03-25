@@ -2,13 +2,13 @@ import * as React from "react";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { CardHeader, Chip, Stack } from "@mui/material";
+import { Avatar, Card, CardHeader, Chip, Divider, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/store/store.hooks";
 import { getTask } from "@/store/activeTask.slice";
 import CloseIcon from "@mui/icons-material/Close";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import * as SC from "./TaskEdit.style";
-import { formatDatePlan } from "@/helpers/common";
+import { formatCommentDate, formatDatePlan } from "@/helpers/common";
 
 export default function TaskEdit({
   taskId,
@@ -35,23 +35,51 @@ export default function TaskEdit({
         title={task.name}
         action={<CloseIcon onClick={onClose} />}
       />
-      <div style={{ display: "grid", gridTemplateColumns: "3fr 1fr" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "3fr auto 1fr",
+          height: "100%",
+        }}
+      >
         <div>
           <CardContent>
             <Typography color="text.secondary" variant="subtitle2">
               Описание
             </Typography>
             <Typography gutterBottom>{task.description}</Typography>
-            <Typography gutterBottom color="text.secondary" variant="subtitle2">
-              Добавление комментариев
-            </Typography>
           </CardContent>
+          <Divider />
           <CardActions>
             <SC.StyledButton size="small" variant="contained">
               Добавить комментарий
             </SC.StyledButton>
           </CardActions>
+          {task.lifetimeItems &&
+            task.lifetimeItems.length > 0 &&
+            task.lifetimeItems.map((item) => {
+              return (
+                <Card
+                  key={item.id}
+                  sx={{
+                    backgroundColor: "#f0f9ff",
+                    border: "none",
+                    boxShadow: "none",
+                  }}
+                >
+                  <CardHeader
+                    avatar={<Avatar></Avatar>}
+                    title="Name"
+                    subheader={`${formatCommentDate(item.createdAt)}`}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom>{item.comment}</Typography>
+                  </CardContent>
+                </Card>
+              );
+            })}
         </div>
+        <Divider orientation="vertical" />
         <SC.StyledCardContent>
           <div>
             <Typography color="text.secondary" variant="subtitle2">

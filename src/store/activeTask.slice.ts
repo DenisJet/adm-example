@@ -3,8 +3,23 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Task } from "./tasks.slice";
 
+export interface LifetimeItem {
+  id: number;
+  userName: string;
+  lifetimeType: number;
+  createdAt: string;
+  comment: string;
+  fieldName: string;
+  oldFieldValue: string;
+  newFieldValue: string;
+}
+
+export interface ActiveTask extends Task {
+  lifetimeItems: LifetimeItem[];
+}
+
 interface ActiveTaskState {
-  task: Task | null;
+  task: ActiveTask | null;
   isLoading: boolean;
   error: string | null;
 }

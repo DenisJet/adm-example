@@ -36,10 +36,12 @@ export default function TaskEdit({
 }) {
   const [activeStatus, setActiveStatus] = useState("");
   const [activeExecutor, setActiveExecutor] = useState("");
-  const [isError, setIsError] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [newComment, setNewComment] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbar, setSnackbar] = useState({
+    message: "",
+    isError: false,
+  });
 
   const { task } = useAppSelector((state) => state.activeTask);
   const { statuses } = useAppSelector((state) => state.statuses);
@@ -87,15 +89,13 @@ export default function TaskEdit({
               statusRgb: status.rgb,
             }),
           );
-          setIsError(false);
+          setSnackbar({ message: "Статус задачи обновлен", isError: false });
           setSnackbarOpen(true);
-          setSnackbarMessage("Статус задачи обновлен");
         });
     } catch (err) {
       console.error(err);
-      setIsError(true);
+      setSnackbar({ message: "Не удалось обновить статус", isError: true });
       setSnackbarOpen(true);
-      setSnackbarMessage("Не удалось обновить статус");
       setActiveStatus(task.statusName);
     }
   };
@@ -128,15 +128,19 @@ export default function TaskEdit({
               executorName: executor?.name,
             }),
           );
-          setIsError(false);
+          setSnackbar({
+            message: "Исполнитель задачи изменён",
+            isError: false,
+          });
           setSnackbarOpen(true);
-          setSnackbarMessage("Исполнитель задачи изменён");
         });
     } catch (err) {
       console.error(err);
-      setIsError(true);
+      setSnackbar({
+        message: "Не удалось изменить исполнителя",
+        isError: true,
+      });
       setSnackbarOpen(true);
-      setSnackbarMessage("Не удалось изменить исполнителя");
       setActiveExecutor(task.executorName);
     }
   };
@@ -155,12 +159,14 @@ export default function TaskEdit({
 
       await dispatch(getTask(taskId)).unwrap();
 
-      setNewComment("");
-      setSnackbarMessage("Комментарий успешно добавлен");
+      setSnackbar({ message: "Комментарий успешно добавлен", isError: false });
       setSnackbarOpen(true);
     } catch (error) {
       console.error("Ошибка при добавлении комментария:", error);
-      setSnackbarMessage("Не удалось добавить комментарий");
+      setSnackbar({
+        message: "Не удалось добавить комментарий",
+        isError: true,
+      });
       setSnackbarOpen(true);
     }
   };
@@ -277,9 +283,6 @@ export default function TaskEdit({
             <Typography color="text.secondary" variant="subtitle2">
               Исполнитель
             </Typography>
-            {/* <Typography gutterBottom noWrap>
-              {task.executorName}
-            </Typography> */}
             <FormControl fullWidth>
               <Select
                 value={activeExecutor}
@@ -337,11 +340,11 @@ export default function TaskEdit({
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Alert
-          severity={isError ? "error" : "success"}
+          severity={snackbar.isError ? "error" : "success"}
           variant="filled"
           sx={{ width: "100%" }}
         >
-          {snackbarMessage}
+          {snackbar.message}
         </Alert>
       </Snackbar>
     </SC.StyledCard>

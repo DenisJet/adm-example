@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Table } from "@mui/material";
+import { Button } from "@mui/material";
 
 export const StyledTable = styled(Table)`
   & tbody tr {
@@ -26,4 +27,9 @@ export const StyledTable = styled(Table)`
   & td:nth-child(1) {
     width: 50px;
   }
+`;
+
+export const StyledButton = styled(Button)`
+  border-radius: 15px;
+  padding: 5px 15px;
 `;

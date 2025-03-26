@@ -153,7 +153,6 @@ export default function TaskEdit({
 
   const handleAddComment = async () => {
     if (!newComment.trim() || !task) return;
-    console.log(newComment);
 
     try {
       await axios.put(`${BASE_API_URL}api/${TENANT_GUID}/Tasks/`, {
@@ -190,7 +189,7 @@ export default function TaskEdit({
     setSnackbar({ open: false, message: "", isError: false });
   };
 
-  if (!task) return <div>Failed to load task</div>;
+  if (!task) return <div>Loading...</div>;
 
   return (
     <SC.StyledCard>
@@ -215,12 +214,16 @@ export default function TaskEdit({
           </CardContent>
           <Divider />
           <CardContent>
+            <Typography color="text.secondary" variant="subtitle2">
+              Новый комментарий
+            </Typography>
             <TextField
+              required
               value={newComment}
               onChange={handleCommentChange}
               id="comment"
               label="Напишите новый комментарий здесь"
-              variant="filled"
+              variant="standard"
               multiline
               fullWidth
               rows={4}

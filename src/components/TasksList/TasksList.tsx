@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import {
   Box,
+  Button,
   Drawer,
   TableBody,
   TableCell,
@@ -12,26 +13,28 @@ import {
 import { useAppSelector } from "@/store/store.hooks";
 import * as SC from "./TasksList.style";
 import TaskEdit from "../TaskEdit/TaskEdit";
-
-interface TableRowData {
-  priorityColor: string;
-  id: number;
-  name: string;
-  status: string;
-  statusColor: string;
-  executor: string;
-}
+import TaskCreate from "../TaskCreate/TaskCreate";
 
 export default function TasksList() {
   const [open, setOpen] = useState(false);
   const [activeTaskId, setActiveTaskId] = useState<number | null>(null);
+  const [isCreate, setIsCreate] = useState(false);
 
   const { tasks } = useAppSelector((state) => state.tasks);
   const { priorities } = useAppSelector((state) => state.priorities);
 
   const toggleDrawer = (newOpen: boolean, taskId?: number) => () => {
     setOpen(newOpen);
-    if (taskId) setActiveTaskId(taskId);
+    if (taskId) {
+      setActiveTaskId(taskId);
+      setIsCreate(false);
+    }
+  };
+
+  const handleCreateClick = () => {
+    setOpen(true);
+    setActiveTaskId(null);
+    setIsCreate(true);
   };
 
   const rows = useMemo(() => {
@@ -49,6 +52,13 @@ export default function TasksList() {
 
   return (
     <>
+      <SC.StyledButton
+        size="small"
+        variant="contained"
+        onClick={handleCreateClick}
+      >
+        Создать заявку
+      </SC.StyledButton>
       <TableContainer>
         <SC.StyledTable>
           <TableHead>
@@ -84,15 +94,17 @@ export default function TasksList() {
           </TableBody>
         </SC.StyledTable>
       </TableContainer>
-      {activeTaskId && (
-        <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
-          <Box sx={{ width: "60vw" }}>
-            <div>
+      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+        <Box sx={{ width: "60vw" }}>
+          <div>
+            {isCreate ? (
+              <TaskCreate onClose={toggleDrawer(false)} />
+            ) : activeTaskId ? (
               <TaskEdit taskId={activeTaskId} onClose={toggleDrawer(false)} />
-            </div>
-          </Box>
-        </Drawer>
-      )}
+            ) : null}
+          </div>
+        </Box>
+      </Drawer>
     </>
   );
 }

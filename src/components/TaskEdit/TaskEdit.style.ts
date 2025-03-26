@@ -9,6 +9,11 @@ export const StyledCard = styled(Card)`
     background-color: #075985;
     color: white;
   }
+
+  & textarea {
+    padding: 10px;
+    background-color: white;
+  }
 `;
 
 export const StyledButton = styled(Button)`

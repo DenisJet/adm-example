@@ -69,6 +69,7 @@ export default function TaskEdit({
 
     try {
       const status = statuses.find((status) => status.name === newStatus);
+      const executor = users.find((user) => user.name === activeExecutor);
 
       if (!status) {
         throw new Error("Selected status not found");
@@ -78,7 +79,7 @@ export default function TaskEdit({
         .put(`${BASE_API_URL}api/${TENANT_GUID}/Tasks/`, {
           id: task.id,
           statusId: status.id,
-          executorId: task.executorId,
+          executorId: executor?.id,
         })
         .then(() => {
           dispatch(
@@ -114,6 +115,7 @@ export default function TaskEdit({
 
     try {
       const executor = users.find((user) => user.name === newExecutor);
+      const status = statuses.find((status) => status.name === activeStatus);
 
       if (!executor) {
         throw new Error("Selected executor not found");
@@ -123,13 +125,13 @@ export default function TaskEdit({
         .put(`${BASE_API_URL}api/${TENANT_GUID}/Tasks/`, {
           id: task.id,
           executorId: executor?.id,
-          statusId: task.statusId,
+          statusId: status?.id,
         })
         .then(() => {
           dispatch(
             tasksActions.changeExecutor({
               id: task.id,
-              statusId: task.statusId,
+              statusId: status?.id,
               executorId: executor?.id,
               executorName: executor?.name,
             }),
@@ -155,11 +157,14 @@ export default function TaskEdit({
     if (!newComment.trim() || !task) return;
 
     try {
+      const executor = users.find((user) => user.name === activeExecutor);
+      const status = statuses.find((status) => status.name === activeStatus);
+
       await axios.put(`${BASE_API_URL}api/${TENANT_GUID}/Tasks/`, {
         id: task.id,
-        statusId: task.statusId,
+        statusId: status?.id,
         comment: newComment,
-        executorId: task.executorId,
+        executorId: executor?.id,
       });
 
       await dispatch(getTask(taskId)).unwrap();

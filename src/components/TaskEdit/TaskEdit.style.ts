@@ -3,7 +3,6 @@ import { Button, Card, CardContent } from "@mui/material";
 
 export const StyledCard = styled(Card)`
   background-color: #f0f9ff;
-  min-width: 275px;
   height: 100vh;
 
   > .MuiCardHeader-root {

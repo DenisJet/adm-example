@@ -14,14 +14,7 @@ interface TaskCommentProps {
 
 export default function TaskComment({ comment }: TaskCommentProps) {
   return (
-    <Card
-      key={comment.id}
-      sx={{
-        backgroundColor: "#f0f9ff",
-        border: "none",
-        boxShadow: "none",
-      }}
-    >
+    <Card key={comment.id} sx={{ marginBottom: "10px" }}>
       <CardHeader
         avatar={<Avatar></Avatar>}
         title={`${comment.userName}`}

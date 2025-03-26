@@ -9,7 +9,6 @@ import {
   FormControl,
   MenuItem,
   Select,
-  SelectChangeEvent,
   Stack,
   TextField,
 } from "@mui/material";
@@ -19,12 +18,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import * as SC from "./TaskEdit.style";
 import { formatDatePlan } from "@/helpers/common";
-import { useEffect, useState } from "react";
-import { tasksActions } from "../../store/tasks.slice";
+import { useEffect } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import TaskComment from "../TaskComment/TaskComment";
-import axios from "axios";
-import { BASE_API_URL, TENANT_GUID } from "@/constants/common";
 import { getUsers } from "@/store/users.slice";
 import { useTaskActions } from "@/hooks/useTaskActions";
 

@@ -43,7 +43,9 @@ export default function TaskEdit({
     isError: false,
   });
 
-  const { task } = useAppSelector((state) => state.activeTask);
+  const { task, isLoading, error } = useAppSelector(
+    (state) => state.activeTask,
+  );
   const { statuses } = useAppSelector((state) => state.statuses);
   const { users } = useAppSelector((state) => state.users);
 
@@ -194,13 +196,15 @@ export default function TaskEdit({
     setSnackbar({ open: false, message: "", isError: false });
   };
 
-  if (!task) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>{error}</div>;
 
   return (
     <SC.StyledCard>
       <CardHeader
-        avatar={`№ ${task.id}`}
-        title={task.name}
+        avatar={`№ ${task?.id}`}
+        title={task?.name}
         action={<CloseIcon onClick={onClose} />}
       />
       <div
@@ -215,7 +219,7 @@ export default function TaskEdit({
             <Typography color="text.secondary" variant="subtitle2">
               Описание
             </Typography>
-            <Typography gutterBottom>{task.description}</Typography>
+            <Typography gutterBottom>{task?.description}</Typography>
           </CardContent>
           <Divider />
           <CardContent>
@@ -245,9 +249,9 @@ export default function TaskEdit({
             </SC.StyledButton>
           </CardActions>
           <CardContent style={{ overflow: "auto", height: "60vh" }}>
-            {task.lifetimeItems &&
+            {task?.lifetimeItems &&
               task.lifetimeItems.length > 0 &&
-              task?.lifetimeItems
+              task.lifetimeItems
                 .filter((items) => items.comment !== null)
                 ?.map((item) => {
                   return (
@@ -287,7 +291,7 @@ export default function TaskEdit({
               Заявитель
             </Typography>
             <Typography gutterBottom noWrap>
-              {task.initiatorName}
+              {task?.initiatorName}
             </Typography>
           </div>
           <div>
@@ -295,7 +299,7 @@ export default function TaskEdit({
               Создана
             </Typography>
             <Typography gutterBottom noWrap>
-              {task.initiatorName}
+              {task?.initiatorName}
             </Typography>
           </div>
           <div>
@@ -323,7 +327,7 @@ export default function TaskEdit({
               Приоритет
             </Typography>
             <Typography gutterBottom noWrap>
-              {task.priorityName}
+              {task?.priorityName}
             </Typography>
           </div>
           <div>
@@ -333,7 +337,7 @@ export default function TaskEdit({
             <Stack direction="row" spacing={1}>
               <CalendarMonthOutlinedIcon htmlColor="gray" />
               <Typography gutterBottom noWrap>
-                {formatDatePlan(task.resolutionDatePlan)}
+                {task && formatDatePlan(task.resolutionDatePlan)}
               </Typography>
             </Stack>
           </div>
@@ -342,7 +346,7 @@ export default function TaskEdit({
               Теги
             </Typography>
             <Stack direction="row" spacing={1}>
-              {task.tags &&
+              {task?.tags &&
                 task.tags.map((tag) => {
                   return (
                     <Chip key={tag.id} label={tag.name} variant="outlined" />

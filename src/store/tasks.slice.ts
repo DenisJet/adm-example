@@ -82,9 +82,9 @@ const tasksSlice = createSlice({
         state.isLoading = false;
         state.tasks = action.payload;
       })
-      .addCase(getTasks.rejected, (state, action) => {
+      .addCase(getTasks.rejected, (state) => {
         state.isLoading = false;
-        state.error = action.error.message || "Failed to load tasks";
+        state.error = "Failed to load tasks";
       });
   },
 });

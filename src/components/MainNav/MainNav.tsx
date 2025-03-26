@@ -14,6 +14,7 @@ import * as SC from "./MainNav.style";
 import { ROUTES } from "@/constants/routes.constants";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import SearchIcon from "@mui/icons-material/Search";
 
 const DRAWER_WIDTH = 100;
 
@@ -69,7 +70,7 @@ export default function MainNav() {
         }}
       >
         <SC.StyledToolBar>
-          <SC.StyledInput />
+          <SC.StyledInput endAdornment={<SearchIcon htmlColor="gray" />} />
         </SC.StyledToolBar>
       </AppBar>
       <Drawer

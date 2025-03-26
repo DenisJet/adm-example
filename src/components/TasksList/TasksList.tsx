@@ -20,7 +20,7 @@ export default function TasksList() {
   const [activeTaskId, setActiveTaskId] = useState<number | null>(null);
   const [isCreate, setIsCreate] = useState(false);
 
-  const { tasks } = useAppSelector((state) => state.tasks);
+  const { tasks, isLoading, error } = useAppSelector((state) => state.tasks);
   const { priorities } = useAppSelector((state) => state.priorities);
 
   const toggleDrawer = (newOpen: boolean, taskId?: number) => () => {
@@ -49,6 +49,10 @@ export default function TasksList() {
       executor: task.executorName,
     }));
   }, [tasks, priorities]);
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>{error}</div>;
 
   return (
     <>
@@ -94,7 +98,12 @@ export default function TasksList() {
           </TableBody>
         </SC.StyledTable>
       </TableContainer>
-      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+      <Drawer
+        anchor="right"
+        open={open}
+        onClose={toggleDrawer(false)}
+        aria-hidden="false"
+      >
         <Box sx={{ width: "60vw" }}>
           <div>
             {isCreate ? (

@@ -54,9 +54,9 @@ const activeTaskSlice = createSlice({
         state.isLoading = false;
         state.task = action.payload;
       })
-      .addCase(getTask.rejected, (state, action) => {
+      .addCase(getTask.rejected, (state) => {
         state.isLoading = false;
-        state.error = action.error.message || "Failed to load task";
+        state.error = "Failed to load task";
       });
   },
 });

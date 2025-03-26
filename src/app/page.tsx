@@ -1,7 +1,7 @@
 "use client";
 import { getPriorities } from "@/store/priorities.slice";
 import { getStatuses } from "@/store/statuses.slice";
-import { useAppDispatch, useAppSelector } from "@/store/store.hooks";
+import { useAppDispatch } from "@/store/store.hooks";
 import { useEffect } from "react";
 
 export default function Home() {

@@ -111,7 +111,7 @@ export default function TaskCreate({ onClose }: { onClose: () => void }) {
           disabled={!name.trim()}
           onClick={handleAddTask}
         >
-          Добавить заявку
+          Сохранить
         </SC.StyledButton>
       </CardActions>
       <Snackbar

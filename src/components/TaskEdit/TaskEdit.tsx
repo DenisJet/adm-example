@@ -295,7 +295,7 @@ export default function TaskEdit({
               Создана
             </Typography>
             <Typography gutterBottom noWrap>
-              {task.executorName}
+              {task.initiatorName}
             </Typography>
           </div>
           <div>

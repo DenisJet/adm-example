@@ -37,7 +37,6 @@ export default function TaskEdit({
   const [activeStatus, setActiveStatus] = useState("");
   const [activeExecutor, setActiveExecutor] = useState("");
   const [newComment, setNewComment] = useState("");
-  // const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",

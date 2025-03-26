@@ -63,6 +63,14 @@ const tasksSlice = createSlice({
         task.statusRgb = statusRgb;
       }
     },
+    changeExecutor: (state, action) => {
+      const { id, executorId, executorName } = action.payload;
+      const task = state.tasks.find((task) => task.id === id);
+      if (task) {
+        task.executorId = executorId;
+        task.executorName = executorName;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder

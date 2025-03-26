@@ -3,6 +3,7 @@ import prioritiesSlice from "./priorities.slice";
 import statusesSlice from "./statuses.slice";
 import tasksSlice from "./tasks.slice";
 import activeTaskSlice from "./activeTask.slice";
+import usersSlice from "./users.slice";
 
 export const makeStore = () => {
   return configureStore({
@@ -11,6 +12,7 @@ export const makeStore = () => {
       statuses: statusesSlice,
       tasks: tasksSlice,
       activeTask: activeTaskSlice,
+      users: usersSlice,
     },
   });
 };

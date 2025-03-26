@@ -25,6 +25,7 @@ import Snackbar from "@mui/material/Snackbar";
 import TaskComment from "../TaskComment/TaskComment";
 import axios from "axios";
 import { BASE_API_URL, TENANT_GUID } from "@/constants/common";
+import { getUsers } from "@/store/users.slice";
 
 export default function TaskEdit({
   taskId,
@@ -34,6 +35,7 @@ export default function TaskEdit({
   onClose: () => void;
 }) {
   const [activeStatus, setActiveStatus] = useState("");
+  const [activeExecutor, setActiveExecutor] = useState("");
   const [isError, setIsError] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -41,16 +43,19 @@ export default function TaskEdit({
 
   const { task } = useAppSelector((state) => state.activeTask);
   const { statuses } = useAppSelector((state) => state.statuses);
+  const { users } = useAppSelector((state) => state.users);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getTask(taskId));
+    dispatch(getUsers());
   }, [taskId, dispatch]);
 
   useEffect(() => {
     if (task) {
       setActiveStatus(task.statusName);
+      setActiveExecutor(task.executorName);
     }
   }, [task]);
 
@@ -63,7 +68,7 @@ export default function TaskEdit({
     try {
       const status = statuses.find((status) => status.name === newStatus);
 
-      if (!status?.id) {
+      if (!status) {
         throw new Error("Selected status not found");
       }
 
@@ -95,8 +100,45 @@ export default function TaskEdit({
     }
   };
 
-  const handleClose = () => {
-    setSnackbarOpen(false);
+  const handleExecutorChange = async (event: SelectChangeEvent) => {
+    const newExecutor = event.target.value;
+    setActiveExecutor(newExecutor);
+
+    if (!task) return;
+
+    try {
+      const executor = users.find((user) => user.name === newExecutor);
+
+      if (!executor) {
+        throw new Error("Selected executor not found");
+      }
+
+      await axios
+        .put(`${BASE_API_URL}api/${TENANT_GUID}/Tasks/`, {
+          id: task.id,
+          executorId: executor?.id,
+          statusId: task.statusId,
+        })
+        .then(() => {
+          dispatch(
+            tasksActions.changeExecutor({
+              id: task.id,
+              statusId: task.statusId,
+              executorId: executor?.id,
+              executorName: executor?.name,
+            }),
+          );
+          setIsError(false);
+          setSnackbarOpen(true);
+          setSnackbarMessage("Исполнитель задачи изменён");
+        });
+    } catch (err) {
+      console.error(err);
+      setIsError(true);
+      setSnackbarOpen(true);
+      setSnackbarMessage("Не удалось изменить исполнителя");
+      setActiveExecutor(task.executorName);
+    }
   };
 
   const handleAddComment = async () => {
@@ -125,6 +167,10 @@ export default function TaskEdit({
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewComment(e.target.value);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   if (!task) return <div>Failed to load task</div>;
@@ -194,6 +240,7 @@ export default function TaskEdit({
               <Select
                 value={activeStatus}
                 onChange={handleStatusChange}
+                size="small"
                 style={{
                   backgroundColor: statuses.find(
                     (status) => status.name === activeStatus,
@@ -230,9 +277,24 @@ export default function TaskEdit({
             <Typography color="text.secondary" variant="subtitle2">
               Исполнитель
             </Typography>
-            <Typography gutterBottom noWrap>
+            {/* <Typography gutterBottom noWrap>
               {task.executorName}
-            </Typography>
+            </Typography> */}
+            <FormControl fullWidth>
+              <Select
+                value={activeExecutor}
+                onChange={handleExecutorChange}
+                size="small"
+              >
+                {users.map((user) => {
+                  return (
+                    <MenuItem key={user.id} value={user.name}>
+                      {user.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
           </div>
           <div>
             <Typography color="text.secondary" variant="subtitle2">
@@ -270,8 +332,8 @@ export default function TaskEdit({
       </div>
       <Snackbar
         open={snackbarOpen}
-        onClose={handleClose}
-        autoHideDuration={2000}
+        onClose={handleSnackbarClose}
+        autoHideDuration={3000}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Alert

@@ -1,14 +1,32 @@
-import * as React from "react";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Avatar, Card, CardHeader, Chip, Divider, Stack } from "@mui/material";
+import {
+  Alert,
+  Avatar,
+  Card,
+  CardHeader,
+  Chip,
+  Divider,
+  FormControl,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/store/store.hooks";
 import { getTask } from "@/store/activeTask.slice";
 import CloseIcon from "@mui/icons-material/Close";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import * as SC from "./TaskEdit.style";
 import { formatCommentDate, formatDatePlan } from "@/helpers/common";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { BASE_API_URL, TENANT_GUID } from "@/constants/common";
+import { tasksActions } from "../../store/tasks.slice";
+import Snackbar from "@mui/material/Snackbar";
+import TaskComment from "../TaskComment/TaskComment";
+import { useTaskStatusUpdate } from "@/hooks/useTaskStatusUpdate";
 
 export default function TaskEdit({
   taskId,
@@ -17,14 +35,59 @@ export default function TaskEdit({
   taskId: number;
   onClose: () => void;
 }) {
-  console.log(taskId);
+  const [activeStatus, setActiveStatus] = useState("");
+
   const { task } = useAppSelector((state) => state.activeTask);
+  const { statuses } = useAppSelector((state) => state.statuses);
 
   const dispatch = useAppDispatch();
 
-  React.useEffect(() => {
+  const {
+    loadStatus,
+    isError,
+    snackbarOpen,
+    setSnackbarOpen,
+    updateTaskStatus,
+  } = useTaskStatusUpdate();
+
+  useEffect(() => {
     dispatch(getTask(taskId));
-  }, []);
+  }, [taskId, dispatch]);
+
+  useEffect(() => {
+    if (task) {
+      setActiveStatus(task.statusName);
+    }
+  }, [task]);
+
+  const handleStatusChange = async (event: SelectChangeEvent) => {
+    const newStatus = event.target.value;
+    if (!task) return;
+
+    const success = await updateTaskStatus(task, newStatus, statuses, () => {
+      const status = statuses.find((s) => s.name === newStatus);
+      if (status) {
+        dispatch(
+          tasksActions.changeStatus({
+            id: task.id,
+            statusId: status.id,
+            statusName: status.name,
+            statusRgb: status.rgb,
+          }),
+        );
+      }
+    });
+
+    if (success) {
+      setActiveStatus(newStatus);
+    } else {
+      setActiveStatus(task.statusName);
+    }
+  };
+
+  const handleClose = () => {
+    setSnackbarOpen(false);
+  };
 
   if (!task) return <div>Failed to load task</div>;
 
@@ -57,30 +120,31 @@ export default function TaskEdit({
           </CardActions>
           {task.lifetimeItems &&
             task.lifetimeItems.length > 0 &&
-            task.lifetimeItems.map((item) => {
-              return (
-                <Card
-                  key={item.id}
-                  sx={{
-                    backgroundColor: "#f0f9ff",
-                    border: "none",
-                    boxShadow: "none",
-                  }}
-                >
-                  <CardHeader
-                    avatar={<Avatar></Avatar>}
-                    title="Name"
-                    subheader={`${formatCommentDate(item.createdAt)}`}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom>{item.comment}</Typography>
-                  </CardContent>
-                </Card>
-              );
-            })}
+            task?.lifetimeItems
+              .filter((items) => items.comment !== null)
+              ?.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <TaskComment comment={item} />
+                  </div>
+                );
+              })}
         </div>
         <Divider orientation="vertical" />
         <SC.StyledCardContent>
+          <div>
+            <FormControl fullWidth>
+              <Select value={activeStatus} onChange={handleStatusChange}>
+                {statuses.map((status) => {
+                  return (
+                    <MenuItem key={status.id} value={status.name}>
+                      {status.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </div>
           <div>
             <Typography color="text.secondary" variant="subtitle2">
               Заявитель
@@ -139,6 +203,20 @@ export default function TaskEdit({
           </div>
         </SC.StyledCardContent>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        onClose={handleClose}
+        autoHideDuration={2000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          severity={isError ? "error" : "success"}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {loadStatus}
+        </Alert>
+      </Snackbar>
     </SC.StyledCard>
   );
 }

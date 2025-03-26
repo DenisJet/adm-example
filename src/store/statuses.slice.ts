@@ -2,14 +2,14 @@ import { BASE_API_URL, TENANT_GUID } from "@/constants/common";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface Statuses {
+export interface Status {
   rgb: string;
   id: number;
   name: string;
 }
 
 interface StatusesState {
-  statuses: Statuses[];
+  statuses: Status[];
   isLoading: boolean;
   error: string | null;
 }

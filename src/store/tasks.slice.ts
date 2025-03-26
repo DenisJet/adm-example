@@ -43,7 +43,7 @@ const initialState = {
   error: null,
 } satisfies TasksState as TasksState;
 
-export const getTasks = createAsyncThunk("task/getTasks", async () => {
+export const getTasks = createAsyncThunk("tasks/getTasks", async () => {
   const response = await axios.get(
     `${BASE_API_URL}odata/tasks?tenantguid=${TENANT_GUID}`,
   );
@@ -53,7 +53,17 @@ export const getTasks = createAsyncThunk("task/getTasks", async () => {
 const tasksSlice = createSlice({
   name: "tasks",
   initialState,
-  reducers: {},
+  reducers: {
+    changeStatus: (state, action) => {
+      const { id, statusId, statusName, statusRgb } = action.payload;
+      const task = state.tasks.find((task) => task.id === id);
+      if (task) {
+        task.statusId = statusId;
+        task.statusName = statusName;
+        task.statusRgb = statusRgb;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getTasks.pending, (state) => {
@@ -72,3 +82,4 @@ const tasksSlice = createSlice({
 });
 
 export default tasksSlice.reducer;
+export const tasksActions = tasksSlice.actions;

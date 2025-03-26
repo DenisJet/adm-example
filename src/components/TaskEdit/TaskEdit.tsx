@@ -37,8 +37,9 @@ export default function TaskEdit({
   const [activeStatus, setActiveStatus] = useState("");
   const [activeExecutor, setActiveExecutor] = useState("");
   const [newComment, setNewComment] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  // const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbar, setSnackbar] = useState({
+    open: false,
     message: "",
     isError: false,
   });
@@ -89,13 +90,19 @@ export default function TaskEdit({
               statusRgb: status.rgb,
             }),
           );
-          setSnackbar({ message: "Статус задачи обновлен", isError: false });
-          setSnackbarOpen(true);
+          setSnackbar({
+            open: true,
+            message: "Статус задачи обновлен",
+            isError: false,
+          });
         });
     } catch (err) {
       console.error(err);
-      setSnackbar({ message: "Не удалось обновить статус", isError: true });
-      setSnackbarOpen(true);
+      setSnackbar({
+        open: true,
+        message: "Не удалось обновить статус",
+        isError: true,
+      });
       setActiveStatus(task.statusName);
     }
   };
@@ -129,18 +136,18 @@ export default function TaskEdit({
             }),
           );
           setSnackbar({
+            open: true,
             message: "Исполнитель задачи изменён",
             isError: false,
           });
-          setSnackbarOpen(true);
         });
     } catch (err) {
       console.error(err);
       setSnackbar({
+        open: true,
         message: "Не удалось изменить исполнителя",
         isError: true,
       });
-      setSnackbarOpen(true);
       setActiveExecutor(task.executorName);
     }
   };
@@ -159,15 +166,20 @@ export default function TaskEdit({
 
       await dispatch(getTask(taskId)).unwrap();
 
-      setSnackbar({ message: "Комментарий успешно добавлен", isError: false });
-      setSnackbarOpen(true);
+      setSnackbar({
+        open: true,
+        message: "Комментарий успешно добавлен",
+        isError: false,
+      });
+      setNewComment("");
     } catch (error) {
       console.error("Ошибка при добавлении комментария:", error);
       setSnackbar({
+        open: true,
         message: "Не удалось добавить комментарий",
         isError: true,
       });
-      setSnackbarOpen(true);
+      setNewComment("");
     }
   };
 
@@ -176,7 +188,7 @@ export default function TaskEdit({
   };
 
   const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
+    setSnackbar({ open: false, message: "", isError: false });
   };
 
   if (!task) return <div>Failed to load task</div>;
@@ -334,7 +346,7 @@ export default function TaskEdit({
         </SC.StyledCardContent>
       </div>
       <Snackbar
-        open={snackbarOpen}
+        open={snackbar.open}
         onClose={handleSnackbarClose}
         autoHideDuration={3000}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

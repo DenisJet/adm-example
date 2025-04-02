@@ -67,10 +67,17 @@ export default function TasksList() {
         <SC.StyledTable>
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell align="left">Название</TableCell>
-              <TableCell align="left">Статус</TableCell>
-              <TableCell align="left">Исполнитель</TableCell>
+              <TableCell style={{ width: "5%" }}>ID</TableCell>
+              <TableCell style={{ width: "30%" }} align="left">
+                Название
+              </TableCell>
+              <TableCell style={{ width: "5%" }} align="left">
+                Статус
+              </TableCell>
+              <TableCell style={{ width: "10%" }} align="left">
+                Исполнитель
+              </TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -93,6 +100,7 @@ export default function TasksList() {
                   </span>
                 </TableCell>
                 <TableCell align="left">{row.executor}</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             ))}
           </TableBody>

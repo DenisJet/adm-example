@@ -88,7 +88,7 @@ export default function MainNav() {
         <SC.StyledList>
           <SC.StyledListItem
             sx={{
-              backgroundColor: pathname === ROUTES.home ? "#0c4a6e" : "",
+              backgroundColor: pathname === ROUTES.home ? "#002c49" : "",
             }}
           >
             <SC.StyledLink href={ROUTES.home}>
@@ -106,7 +106,7 @@ export default function MainNav() {
             <SC.StyledListItem
               key={item.path}
               sx={{
-                backgroundColor: pathname === item.path ? "#0c4a6e" : "",
+                backgroundColor: pathname === item.path ? "#002c49" : "",
               }}
             >
               <SC.StyledLink href={item.path}>

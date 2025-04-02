@@ -19,13 +19,13 @@ export const StyledListItem = styled(ListItemButton)`
   padding: 10px 16px;
 
   &:hover {
-    background-color: #0c4a6e;
+    background-color: #002c49;
   }
 `;
 
 export const StyledList = styled(List)`
   padding: 0;
-  background-color: #082f49;
+  background-color: #002137;
   height: 100%;
 `;
 
@@ -40,6 +40,6 @@ export const StyledLink = styled(Link)`
 `;
 
 export const StyledToolBar = styled(Toolbar)`
-  background-color: #bae6fd;
+  background-color: #d1e0ed;
   padding: 16px;
 `;

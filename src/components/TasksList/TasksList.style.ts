@@ -32,4 +32,5 @@ export const StyledTable = styled(Table)`
 export const StyledButton = styled(Button)`
   border-radius: 15px;
   padding: 5px 15px;
+  background-color: #008cf0;
 `;

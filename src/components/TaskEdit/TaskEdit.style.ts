@@ -2,11 +2,11 @@ import styled from "@emotion/styled";
 import { Button, Card, CardContent } from "@mui/material";
 
 export const StyledCard = styled(Card)`
-  background-color: #f0f9ff;
+  background-color: #ecf3f7;
   height: 100vh;
 
   > .MuiCardHeader-root {
-    background-color: #075985;
+    background-color: #1a4876;
     color: white;
   }
 
@@ -19,6 +19,7 @@ export const StyledCard = styled(Card)`
 export const StyledButton = styled(Button)`
   border-radius: 15px;
   padding: 5px 15px;
+  background-color: #008cf0;
 `;
 
 export const StyledCardContent = styled(CardContent)`

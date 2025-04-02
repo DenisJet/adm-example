@@ -16,6 +16,7 @@ export const StyledInput = styled(OutlinedInput)`
 export const StyledListItem = styled(ListItemButton)`
   display: flex;
   flex-direction: column;
+  padding: 10px 16px;
 
   &:hover {
     background-color: #0c4a6e;
@@ -34,6 +35,7 @@ export const StyledLink = styled(Link)`
   white-space: nowrap;
   display: flex;
   flex-direction: column;
+  gap: 5px;
   align-items: center;
 `;
 

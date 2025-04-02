@@ -27,32 +27,32 @@ interface NavItem {
 const navItems: NavItem[] = [
   {
     path: ROUTES.base,
-    icon: <BookOutlinedIcon fontSize="large" htmlColor="white" />,
+    icon: <Image src="/book.png" width={22} height={26} alt="База знаний" />,
     label: "База знаний",
   },
   {
     path: ROUTES.tasks,
-    icon: <ArticleIcon fontSize="large" htmlColor="white" />,
+    icon: <Image src="/file.png" width={18} height={24} alt="Заявки" />,
     label: "Заявки",
   },
   {
     path: ROUTES.staff,
-    icon: <GroupsIcon fontSize="large" htmlColor="white" />,
+    icon: <Image src="/staff.png" width={25} height={17} alt="Сотрудники" />,
     label: "Сотрудники",
   },
   {
     path: ROUTES.clients,
-    icon: <LocationCityIcon fontSize="large" htmlColor="white" />,
+    icon: <Image src="/city.png" width={25} height={26} alt="Клиенты" />,
     label: "Клиенты",
   },
   {
     path: ROUTES.assets,
-    icon: <BarChartIcon fontSize="large" htmlColor="white" />,
+    icon: <Image src="/analytics.png" width={26} height={24} alt="Активы" />,
     label: "Активы",
   },
   {
     path: ROUTES.settings,
-    icon: <SettingsIcon fontSize="large" htmlColor="white" />,
+    icon: <Image src="/settings.png" width={25} height={24} alt="Настройки" />,
     label: "Настройки",
   },
 ];
@@ -94,8 +94,8 @@ export default function MainNav() {
             <SC.StyledLink href={ROUTES.home}>
               <Image
                 src="/logo.png"
-                width={55}
-                height={50}
+                width={52}
+                height={44}
                 alt="logo"
                 priority
               />
